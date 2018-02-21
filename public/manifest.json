@@ -1,0 +1,23 @@
+{
+    "name": "Redmine Trello",
+    "details": "A Power-Up to load redmine sprint",
+    "author": "dev.coopengo.com",
+    "icon": {
+        "url": "./public/images/icon.png"
+    },
+    "capabilities": [
+        "authorization-status",
+        "board-buttons",
+        "callback",
+        "card-badges",
+        "card-buttons",
+        "card-detail-badges",
+        "show-authorization",
+        "show-settings"
+    ],
+    "connectors": {
+        "iframe": {
+            "url": "./public/front/index.html"
+        }
+    }
+}
