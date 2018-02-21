@@ -1,5 +1,4 @@
 module.exports = {
-  RedmineURL: 'redmine:3000',
   TrelloURL: 'https://api.trello.com/1/',
   cardToStatus: {
     'To Do': 1,
