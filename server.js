@@ -44,10 +44,6 @@ const main = async () => {
     }
   }))
 
-  app.use(route.get('/callback', async(ctx) => {
-    // oauth()
-  }))
-
   app.use(route.get('/manifest.json', async(ctx) => {
     await send(ctx, 'public/manifest.json')
   }))

@@ -20,5 +20,13 @@ module.exports = {
   ],
   labelsBugColor: [
     'black'
-  ]
+  ],
+  Boards: [
+    'Done',
+    'Review',
+    'In Progress',
+    'To Do'
+  ],
+  bugId: 1,
+  featureId: 2
 }

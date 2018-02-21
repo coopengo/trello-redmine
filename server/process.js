@@ -4,9 +4,21 @@ const config = require('./config')
 const redmine = require('./redmine')
 const trello = require('./trello')
 
-const BOARDS = ['Done', 'Review', 'In Progress', 'To Do']
+const createCards = async (idBoard, issues, lists, existingLabels) => {
+  // Get bugs and features
+  const bugs = issues.filter(i => { return i.tracker.id === config.bugId })
+  const features = issues.filter(i => { return i.tracker.id === config.featureId })
 
-const createCards = async (issues, lists, labels) => {
+  // Create bugs and features labels
+  const labels = await createLabels(idBoard, features, config.labelsFeatureColor)
+  Object.assign(labels, await createLabels(idBoard, bugs, config.labelsBugColor))
+
+  // For update get existings labels
+  if (existingLabels) {
+    existingLabels.body.filter(l => { return l.name in cards }).forEach(l => { labels[l.name] = l.id })
+  }
+
+  // Create card
   const promises = issues.map(issue => {
     const desc = [
       issue.priority.name,
@@ -50,7 +62,7 @@ const createLabels = async (idBoard, issues, color) => {
 
 const createLists = async (idBoard) => {
   const lists = []
-  for (const name of BOARDS) {
+  for (const name of config.Boards) {
     const rq = await trello.createList(idBoard, name)
     lists.push(rq.body.id)
   }
@@ -93,16 +105,11 @@ const loadIssue = async (query) => {
   })
   await Promise.all(promises)
 
-  const features = newIssues.filter(i => { return i.tracker.id === 2 })
-  const bugs = newIssues.filter(i => { return i.tracker.id === 1 })
-  const existingLabels = await trello.getLabels(idBoard)
-  const labels = await createLabels(idBoard, features, config.labelsFeatureColor)
-  Object.assign(labels, await createLabels(idBoard, bugs, config.labelsBugColor))
-  existingLabels.body.filter(l => { return l.name in cards }).forEach(l => { labels[l.name] = l.id })
-
-  const listsTab = Object.values(lists).reverse()
-
-  await createCards(newIssues, listsTab, labels)
+  if (newIssues) {
+    const listsTab = Object.values(lists).reverse()
+    const existingLabels = await trello.getLabels(idBoard)
+    await createCards(idBoard, newIssues, listsTab, existingLabels)
+  }
 }
 
 const saveIssue = async (data) => {
@@ -117,13 +124,8 @@ const setupBoard = async (idBoard, boardName) => {
   if (!idBoard && !boardName) return
   const lists = await createLists(idBoard)
   const issues = await getIssues(boardName, '*')
-  const features = issues.filter(i => { return i.tracker.id === 2 })
-  const bugs = issues.filter(i => { return i.tracker.id === 1 })
-  const labels = await createLabels(idBoard, features, config.labelsFeatureColor)
-  Object.assign(labels, await createLabels(idBoard, bugs, config.labelsBugColor))
-  console.log(labels)
   if (issues) {
-    await createCards(issues, lists, labels)
+    await createCards(idBoard, issues, lists, null)
   }
 }
 
