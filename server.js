@@ -28,7 +28,7 @@ const main = async () => {
     await next()
   })
 
-  app.use(route.head('/', async(ctx) => {
+  app.use(route.head('/', async (ctx) => {
     console.log('test')
     ctx.status = 200
     ctx.body = {
@@ -36,7 +36,7 @@ const main = async () => {
     }
   }))
 
-  app.use(route.post('/', async(ctx) => {
+  app.use(route.post('/', async (ctx) => {
     console.log(ctx.request.body)
     ctx.status = 200
     ctx.body = {
@@ -44,27 +44,27 @@ const main = async () => {
     }
   }))
 
-  app.use(route.get('/manifest.json', async(ctx) => {
+  app.use(route.get('/manifest.json', async (ctx) => {
     await send(ctx, 'public/manifest.json')
   }))
 
-  app.use(route.get('/public/:folder/:file', async(ctx) => {
+  app.use(route.get('/public/:folder/:file', async (ctx) => {
     await send(ctx, ctx.path)
   }))
 
-  app.use(route.get('/launchCard', async(ctx) => {
+  app.use(route.get('/launchCard', async (ctx) => {
     process.setupBoard(ctx.query.boardId, ctx.query.boardName)
   }))
 
-  app.use(route.post('/loadIssue', async(ctx) => {
+  app.use(route.post('/loadIssue', async (ctx) => {
     process.loadIssue(JSON.parse(ctx.request.body))
   }))
 
-  app.use(route.post('/saveIssue', async(ctx) => {
+  app.use(route.post('/saveIssue', async (ctx) => {
     process.saveIssue(ctx.query)
   }))
 
-  app.use(route.put('/updateIssue', async(ctx) => {
+  app.use(route.put('/updateIssue', async (ctx) => {
     process.updateIssue(ctx.request.body)
   }))
 

@@ -15,7 +15,7 @@ const createCards = async (idBoard, issues, lists, existingLabels) => {
 
   // For update get existings labels
   if (existingLabels) {
-    existingLabels.body.filter(l => { return l.name in cards }).forEach(l => { labels[l.name] = l.id })
+    existingLabels.forEach(l => { labels[l.name] = l.id })
   }
 
   // Create card
@@ -41,7 +41,7 @@ const createCards = async (idBoard, issues, lists, existingLabels) => {
       case 7:
         qs.idList = lists[1]
         break
-      case 5:
+      case 3:
         qs.idList = lists[0]
         break
     }
@@ -91,7 +91,7 @@ const loadIssue = async (query) => {
     1: query['To Do'],
     2: query['In Progress'],
     7: query['Review'],
-    5: query['Done']
+    3: query['Done']
   }
   const issues = await getIssues(query.boardName, '*')
   const newIssues = []
@@ -108,7 +108,7 @@ const loadIssue = async (query) => {
   if (newIssues) {
     const listsTab = Object.values(lists).reverse()
     const existingLabels = await trello.getLabels(idBoard)
-    await createCards(idBoard, newIssues, listsTab, existingLabels)
+    await createCards(idBoard, newIssues, listsTab, existingLabels.body.filter(l => { return l.name in cards }))
   }
 }
 
@@ -123,6 +123,10 @@ const saveIssue = async (data) => {
 const setupBoard = async (idBoard, boardName) => {
   if (!idBoard && !boardName) return
   const lists = await createLists(idBoard)
+  const labels = await trello.getLabels(idBoard)
+  for (const l of labels.body) {
+    await trello.removeLabel(l.id)
+  }
   const issues = await getIssues(boardName, '*')
   if (issues) {
     await createCards(idBoard, issues, lists, null)

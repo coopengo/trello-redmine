@@ -4,7 +4,7 @@ module.exports = {
     'To Do': 1,
     'In Progress': 2,
     'Review': 7,
-    'Done': 5
+    'Done': 3
   },
   labelsFeatureColor: [
     'yellow',
