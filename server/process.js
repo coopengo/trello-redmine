@@ -27,7 +27,7 @@ const createCards = async (idBoard, issues, lists, existingLabels) => {
     const qs = {
       name: `#${issue.id} ${issue.subject}`,
       desc,
-      urlSource: `suptest.coopengo.com/issues/${issue.id}`,
+      urlSource: config.RedmineURL + issue.id,
       idList: lists[3],
       idLabels: labels[issue.id]
     }

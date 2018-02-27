@@ -1,5 +1,6 @@
 module.exports = {
   TrelloURL: 'https://api.trello.com/1/',
+  RedmineURL: process.env.REDMINE_EXTERNAL,
   cardToStatus: {
     'To Do': 1,
     'In Progress': 2,
