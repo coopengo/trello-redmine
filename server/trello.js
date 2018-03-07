@@ -38,7 +38,6 @@ const getLabels = (idBoard) => {
 }
 
 const removeLabel = async (id) => {
-  console.log(id)
   await request.del(config.TrelloURL + 'labels/' + id)
     .query({key, token})
 }
