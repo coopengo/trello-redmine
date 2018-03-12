@@ -98,15 +98,20 @@ const loadIssue = async (query) => {
 
   const promises = issues.map(i => {
     if (cards[i.id]) {
-      return trello.updateCard(cards[i.id], {idList: lists[i.status.id]})
+      const id = cards[i.id]
+      delete cards[i.id]
+      return trello.updateCard(id, {idList: lists[i.status.id]})
     } else {
       newIssues.push(i)
     }
   })
+  _.each(cards, (v) => {
+    promises.push(trello.deleteCard(v))
+  })
   await Promise.all(promises)
 
   if (newIssues) {
-    const listsTab = Object.values(lists).reverse()
+    const listsTab = [lists[3], lists[7], lists[2], lists[1]]
     const existingLabels = await trello.getLabels(idBoard)
     await createCards(idBoard, newIssues, listsTab, existingLabels.body.filter(l => { return l.name in cards }))
   }

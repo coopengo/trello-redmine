@@ -32,6 +32,11 @@ const createList = (idBoard, name) => {
     })
 }
 
+const deleteCard = (idCard) => {
+  return request.del(config.TrelloURL + 'cards/'  + idCard)
+    .query({key, token})
+}
+
 const getLabels = (idBoard) => {
   return request.get(config.TrelloURL + 'boards/' + idBoard + '/labels/')
     .query({key, token})
@@ -52,6 +57,7 @@ module.exports = {
   createCard,
   createLabel,
   createList,
+  deleteCard,
   getLabels,
   removeLabel,
   updateCard
