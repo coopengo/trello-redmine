@@ -1,6 +1,6 @@
 {
   "name": "trello-redmine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Trello <-> Redmine bridge to use Trello",
   "author": "dev@coopengo.com",
   "license": "MIT",

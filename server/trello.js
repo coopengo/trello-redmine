@@ -33,7 +33,7 @@ const createList = (idBoard, name) => {
 }
 
 const deleteCard = (idCard) => {
-  return request.del(config.TrelloURL + 'cards/'  + idCard)
+  return request.del(config.TrelloURL + 'cards/' + idCard)
     .query({key, token})
 }
 
