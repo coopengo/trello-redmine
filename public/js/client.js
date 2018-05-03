@@ -79,23 +79,16 @@ var cardBadges = async function (t) {
       body: JSON.stringify({card: id, qs: {desc: desc.join('\n')}})
     })
     await t.set('card', 'shared', 'priority', line[0])
-<<<<<<< HEAD
     await t.set('card', 'shared', 'scrum', line[1])
     priority = line[0]
     scrum = line[1]
-=======
-    priority = line[0]
->>>>>>> master
   }
   return [{
     title: 'priority',
     text: priority
-<<<<<<< HEAD
   }, {
     title: 'scrum',
     text: scrum
-=======
->>>>>>> master
   }]
 }
 
