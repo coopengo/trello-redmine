@@ -1,0 +1,30 @@
+{
+  "name": "trello-redmine",
+  "version": "0.1.0",
+  "description": "Trello <-> Redmine bridge to use Trello",
+  "author": "dev@coopengo.com",
+  "license": "MIT",
+  "private": true,
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-cors": "0.0.16",
+    "koa-logger": "^3.1.0",
+    "koa-route": "^3.2.0",
+    "koa-send": "^4.1.2",
+    "superagent": "^3.8.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "standard": "latest"
+  },
+  "scripts": {
+    "format": "standard --fix",
+    "start": "node .",
+    "docker": "docker build -t coopengo/trello-redmine:$npm_package_version .",
+    "cookie": "docker build -t pierrecookie/trello-redmine:$npm_package_version ."
+  }
+}
