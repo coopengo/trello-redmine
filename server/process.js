@@ -20,8 +20,13 @@ const createCards = async (idBoard, issues, lists, existingLabels) => {
 
   // Create card
   const promises = issues.map(issue => {
+    const scrum = issue.custom_fields.find(cf => {
+      return cf.id === 24
+    }).value || -1
+
     const desc = [
       issue.priority.name,
+      scrum,
       issue.tracker.name
     ].join(',').concat('\n', issue.description)
     const qs = {
